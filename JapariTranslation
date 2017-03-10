@@ -1,0 +1,24 @@
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+// Here your code !
+
+var input_string = '';
+
+// 標準入力の受け取り
+process.stdin.on('data', function(chunk) {
+  input_string += chunk;
+});
+
+// 受け取った後の処理
+process.stdin.on('end', function() {
+  var words = input_string;
+ 
+　// ジャパリ語辞典
+  var j_dictionary = {"すご":"すっごーい!","すごい":"すごーい!","たのしい":"たーのしー!","知ってた?":"知ってたー?","おいしい":"おいしー!","えらい":"えらーい!"};
+  
+  // キーに入っていれば、キーに紐づいた値を返します
+  if (words in j_dictionary) {
+  　console.log(j_dictionary[words]);  
+  }
+
+});
