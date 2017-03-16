@@ -1,0 +1,38 @@
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+// Here your code !
+
+var x = Math.floor(Math.random() * 8) + 1;
+var y = 9;
+
+var numbers = [];
+for (var i = 1; i <= x; i++) {
+    for (var t = 1; t <= y; t++) {
+        var number = i * t;
+        numbers.push(number);
+    }
+}
+
+var count = numbers.length / 9;
+
+for (var c = 1; c <= count; c++) {
+    var data = "";
+    data += "<p>";
+    for (var t = 0; t < 9; t++) {
+        var line = numbers[t];
+        
+        // 2 digits
+        if (line <= 9) {
+            line = ("0"+line);
+        }
+        
+        if (t != 0) {
+            data += (" " + line);   
+        } else {
+            data += line;
+        }
+    }
+    data += "</p>";
+    console.log(data);
+    numbers.splice(0, t);
+}
