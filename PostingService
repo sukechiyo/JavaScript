@@ -1,0 +1,302 @@
+<!--　400文字(原稿用紙１枚分)の文字を投稿できるサービスの試作品 -->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8" />
+	<title>ローカルテスト</title>
+	<style>
+		/* reset */
+		html,body {margin: 0; padding: 0; color: #1c1c1c;}
+		h1,h2,h3,h4,p,ul,li,div {margin: 0; padding: 0;}
+		li {list-style-type: none;}
+		input {display: block;}
+		input,textarea {font-size: 16px;}
+
+		/*　デザイン用スタイル　*/
+		.mainArea {
+			width: 100%;
+		}
+
+		.mainArea h2 {
+			margin-top: 24px;
+		}
+
+		.mainArea input[type="text"] {
+			width: 100%;
+			box-sizing: border-box;
+			padding: 8px;
+			margin-top: 12px;
+			border: 1px solid #C6C6C6;
+		}
+
+		.mainArea textarea {
+			width: 100%;
+			box-sizing: border-box;
+			padding: 8px;
+			min-height: 100px;
+			margin-top: 12px;
+			resize: vertical;
+			border: 1px solid #C6C6C6;
+		}
+
+		.postFormBox {
+			max-width: 940px;
+			width: 96%;
+			margin: 0 auto;
+		}
+
+		.postListBox {
+			border-top: 1px dashed #3DB680;
+			width: 100%;
+			margin: 40px auto 0;
+		}
+
+		.blcPostData {
+			max-width: 940px;
+			width: 96%;
+			margin: 0 auto;
+		}
+
+		.elLimitNotice,
+		.elCharacterNotice,
+		.elEmptyNotice {
+			color: #c7243a;
+			margin-top: 12px;
+			display: none;
+		}
+
+		.blcKeywords {
+			max-width: 940px;
+			margin-top: 16px;
+		}
+
+		.blcKeywords:after {
+			content: '';
+			clear: both;
+			display: block;
+			z-index: 1;
+		}
+
+		.elKeywordList {
+			width: 28%;
+			padding: 8px 12px;
+			border: 2px dashed rgba(0,146,80,0.2);
+			color: #393939;
+			float: left;
+			font-weight: bold;
+			margin-right: 8%;
+			box-sizing: border-box;
+		}
+
+		.js-key2 {
+			margin-right: 0;
+		}
+
+		.elSendButton {
+			float: right;
+    		background: #1DAF9E;
+    		color: #ffffff;
+    		border: 0;
+    		border-radius: 4px;
+    		box-shadow: 0 2px #009F8C;
+    		cursor: pointer;
+    		padding: 8px 40px;
+    		margin-top: 24px;
+		}
+
+		.elDeleteButton {
+			float: right;
+    		background: #555555;
+    		color: #ffffff;
+    		border: 0;
+    		border-radius: 4px;
+    		box-shadow: 0 2px #393939;
+    		cursor: pointer;
+    		padding: 8px 40px;
+    		margin-top: 24px;
+		}
+
+		.blcText:after,
+		.elDeleteButton:after {
+			content: '';
+			clear: both;
+			display: block;
+			z-index: 1;
+		}
+
+		/* モーダル用デザイン　*/
+		.blcCheckModal {
+			display: none;
+		}
+
+		.blcDeleteModal {
+			display: none;
+		}
+
+
+		/* レスポンシブ用デザイン　*/
+		@media(max-width: 767px) {
+			.elKeywordList {
+				float: none;
+				margin: 12px 0 0 0;
+				width: 100%;
+			}
+		}
+
+	</style>
+
+</head>
+<body>
+	<div class="mainArea">
+		<!-- form -->
+		<div class="postFormBox">
+			<h1>コンテンツタイトル</h1>
+			<p>下記のキーワードを使ってください</p>
+			<ul class="blcKeywords">
+				<li class="js-key0 elKeywordList"></li>
+				<li class="js-key1 elKeywordList"></li>
+				<li class="js-key2 elKeywordList"></li>
+			</ul>
+			<div class="blcPenName">
+				<h2>20文字まで</h2>
+				<p>※&nbsp;20文字以内で入力してください。</p>
+				<p class="elLimitNotice">20文字以内で入力してください。</p>
+				<p class="elCharacterNotice">文章から不正な文字(<や?など)を取り除いてください。</p>
+				<p class="elEmptyNotice">必須項目です。入力をお願いします。</p>
+				<input type="text" placeholder="ペンネを入れてください(必須)">
+			</div>
+			<div class="blcTitle">
+				<h2>30文字まで</h2>
+				<p>※&nbsp;30文字以内で入力してください。</p>
+				<p class="elLimitNotice">30文字以内で入力してください。</p>
+				<p class="elCharacterNotice">文章から不正な文字(<や()など)を取り除いてください。</p>
+				<p class="elEmptyNotice">必須項目です。入力をお願いします。</p>
+				<input type="text" placeholder="タイトルを入力してください（必須）" id="title">
+			</div>
+			<div class="blcText">
+				<h2>400文字まで</h2>
+				<p>※&nbsp;400文字以内で入力してください。</p>
+				<p class="elLimitNotice">400文字以内で入力してください。</p>
+				<p class="elCharacterNotice">文章から不正な文字(<や?など)を取り除いてください。</p>
+				<p class="elEmptyNotice">必須項目です。入力をお願いします。</p>
+				<textarea placeholder="内容を入力してください（必須）" class="js-story"></textarea>
+				<input type="button" name="delete" class="elSendButton" value="送信する">
+			</div>
+		</div>
+
+		<!-- リスト　-->
+		<div class="postListBox">
+
+			<!-- 投稿内容　-->
+			<div class="blcPostData">
+				<h2>タイトル（30文字）</h2>
+				<div>内容(400文字想定)</div>
+				<input type="button" name="delete" class="elDeleteButton" value="削除する">
+			</div>
+
+
+		</div>
+
+
+		<!-- モーダル(投稿確認前モーダル) -->
+		<div class="blcCheckModal js-Check">
+			<h3>タイトル（30文字）</h3>
+			<p>内容(400文字想定)</p>
+		</div>
+
+		<!-- モーダル(削除確認前モーダル) -->
+		<div class="blcDeleteModal js-Delete">
+			<h3>本当に削除しますか？</h3>
+			<input type="button" value="やめる">
+			<input type="button" value="削除する">
+		</div>
+	</div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+	/* 重複なしで抽出し、キーワードリストに反映　*/
+	var keywordsRoot = $('.blcKeywords');
+
+	function random(num) {
+	  var a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+	  var t = [];
+	  var r = [];
+	  var l = a.length;
+	  var n = num < l ? num : l;
+	  while (n-- > 0) {
+	    var i = Math.random() * l | 0;
+	    r[n] = t[i] || a[i];
+	    --l;
+	    t[i] = t[l] || a[l];
+	  }
+	  return r;
+	}
+
+	result = random(3);
+	for (var i = 0; i < result.length; i++) {
+		keywordsRoot.find('.js-key'+i).text(result[i]);
+		console.log(result[i]);
+	}
+
+
+	/* テキストエリアの高さ調整 */
+	var textBox = $('.js-story');
+
+	textBox.keypress(function(){
+		var textBoxHeight = textBox.scrollTop() + textBox.innerHeight();
+		textBox.css('height',textBoxHeight);
+	});
+
+	/* インプットのスタイル調整　*/
+	function checkNull() {
+		$(':text,textarea').each(function(){
+			var nearlyEmpty = $(this).parent().find('.elEmptyNotice');
+			if($(this).val() == ''){
+				$(this).css('background','#F4D2DE');
+				nearlyEmpty.show();
+			} else {
+				$(this).css('background','#ffffff');
+				nearylyEmpty.hide();
+			}
+		});
+	}
+
+	/* 特殊文字チェック */
+	function CharacterError() {
+		$(':text,textarea').keypress(function(){
+			if($(this).val().match(/[<(.*)>.*<\/\1>]/)){
+				$(this).parent().children('.elCharacterNotice').show();
+			} else {
+				$(this).parent().children('.elCharacterNotice').hide();
+			}
+		});
+	}
+
+
+	/* 空文字 */
+	checkNull();
+
+	/*　特殊文字 */
+	CharacterError();
+
+	/* フォーカス制御 */
+
+
+
+	/* OKだったら、送信 */
+
+
+	/* ページロード時に情報を取得し、blcPostDataに置き換えて表示する　*/
+
+
+	/* 数が多くなった時のために、ページネーションを用意　*/
+
+
+</script>
+
+
+</html>
