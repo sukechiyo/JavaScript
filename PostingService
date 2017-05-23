@@ -164,7 +164,7 @@
 				<p class="elLimitNotice">20文字以内で入力してください。</p>
 				<p class="elCharacterNotice">文章から不正な文字(<や?など)を取り除いてください。</p>
 				<p class="elEmptyNotice">必須項目です。入力をお願いします。</p>
-				<input type="text" placeholder="ペンネを入れてください(必須)">
+				<input type="text" placeholder="ペンネを入れてください(必須)" id="pen">
 			</div>
 			<div class="blcTitle">
 				<h2>30文字まで</h2>
@@ -239,36 +239,27 @@
 	result = random(3);
 	for (var i = 0; i < result.length; i++) {
 		keywordsRoot.find('.js-key'+i).text(result[i]);
-		console.log(result[i]);
 	}
 
 
 	/* テキストエリアの高さ調整 */
 	var textBox = $('.js-story');
 
-	textBox.keypress(function(){
+	textBox.keydown(function(){
 		var textBoxHeight = textBox.scrollTop() + textBox.innerHeight();
 		textBox.css('height',textBoxHeight);
+		console.log(textBoxHeight);
+		if (textBox.val().length > 400) {
+			textBox.parent().find('.elLimitNotice').show();
+		} else {
+			textBox.parent().find('.elLimitNotice').hide();
+		}
 	});
-
-	/* インプットのスタイル調整　*/
-	function checkNull() {
-		$(':text,textarea').each(function(){
-			var nearlyEmpty = $(this).parent().find('.elEmptyNotice');
-			if($(this).val() == ''){
-				$(this).css('background','#F4D2DE');
-				nearlyEmpty.show();
-			} else {
-				$(this).css('background','#ffffff');
-				nearylyEmpty.hide();
-			}
-		});
-	}
 
 	/* 特殊文字チェック */
 	function CharacterError() {
 		$(':text,textarea').keypress(function(){
-			if($(this).val().match(/[<(.*)>.*<\/\1>]/)){
+			if($(':text,textarea').val().match(/[<(.*)>.*<\/\1>]/)){
 				$(this).parent().children('.elCharacterNotice').show();
 			} else {
 				$(this).parent().children('.elCharacterNotice').hide();
@@ -276,22 +267,119 @@
 		});
 	}
 
-
-	/* 空文字 */
-	checkNull();
-
-	/*　特殊文字 */
+	/* 特殊文字バリデートは常に実行　*/
 	CharacterError();
 
-	/* フォーカス制御 */
+	/* 個別フォーカス制御 */
+	var p_flag = false,
+		t_flag = false,
+		s_flag = false;
 
+	$('#pen').blur(function(){
+		var nearlyEmpty = $(this).parent().find('.elEmptyNotice'),
+			limitNotice = $(this).parent().find('.elLimitNotice'),
+			codeNotice = $(this).parent().children('.elCharacterNotice');
+		if ($(this).val() == '') {
+			nearlyEmpty.show();
+			limitNotice.hide();
+			codeNotice.hide();
+			$(this).css('background','#F4D2DE');
+			p_flag = false;
+		} else if ($(this).val().length > 20) {
+			nearlyEmpty.hide();
+			limitNotice.show();
+			codeNotice.hide();
+			$(this).css('background','#F4D2DE');
+			p_flag = false;
+		} else if ($(this).val().match(/[<.*>.*<\/\1>]/)) {
+			nearlyEmpty.hide();
+			limitNotice.hide();
+			codeNotice.show();
+			$(this).css('background','#F4D2DE');
+			p_flag = false;
+		} else {
+			nearlyEmpty.hide();
+			limitNotice.hide();
+			codeNotice.hide();
+			$(this).css('background','#ffffff');
+			p_flag = true;
+		}
+	});
+
+	$('#title').blur(function(){
+		var nearlyEmpty = $(this).parent().find('.elEmptyNotice'),
+			limitNotice = $(this).parent().find('.elLimitNotice'),
+			codeNotice = $(this).parent().children('.elCharacterNotice');
+		if ($(this).val() == '') {
+			nearlyEmpty.show();
+			limitNotice.hide();
+			codeNotice.hide();
+			$(this).css('background','#F4D2DE');
+			t_flag = false;
+		} else if ($(this).val().length > 30) {
+			nearlyEmpty.hide();
+			limitNotice.show();
+			codeNotice.hide();
+			$(this).css('background','#F4D2DE');
+			t_flag = false;
+		} else if ($(this).val().match(/[<.*>.*<\/\1>]/)) {
+			nearlyEmpty.hide();
+			limitNotice.hide();
+			codeNotice.show();
+			$(this).css('background','#F4D2DE');
+			t_flag = flase;
+		} else {
+			nearlyEmpty.hide();
+			limitNotice.hide();
+			codeNotice.hide();
+			$(this).css('background','#ffffff');
+			t_flag = true;
+		}
+	});
+
+	textBox.blur(function(){
+		var nearlyEmpty = $(this).parent().find('.elEmptyNotice'),
+			limitNotice = $(this).parent().find('.elLimitNotice'),
+			codeNotice = $(this).parent().children('.elCharacterNotice');
+		if ($(this).val() == '') {
+			nearlyEmpty.show();
+			limitNotice.hide();
+			codeNotice.hide();
+			$(this).css('background','#F4D2DE');
+			s_flag = false;
+		} else if ($(this).val().length > 400) {
+			nearlyEmpty.hide();
+			limitNotice.show();
+			codeNotice.hide();
+			$(this).css('background','#F4D2DE');
+			s_flag = false;
+		} else if ($(this).val().match(/[<.*>.*<\/\1>]/)) {
+			nearlyEmpty.hide();
+			limitNotice.hide();
+			codeNotice.show();
+			$(this).css('background','#F4D2DE');
+			s_flag = false;
+		} else {
+			nearlyEmpty.hide();
+			limitNotice.hide();
+			codeNotice.hide();
+			$(this).css('background','#ffffff');
+			s_flag = true;
+		}
+	});
 
 
 	/* OKだったら、送信 */
+	$('.elSendButton').click(function(){
+		if (p_flag == true || t_flag == true || s_flag == true) {
 
+		}
+	});
 
 	/* ページロード時に情報を取得し、blcPostDataに置き換えて表示する　*/
+	$(document).ready(function(){
 
+	});
 
 	/* 数が多くなった時のために、ページネーションを用意　*/
 
