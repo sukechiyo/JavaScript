@@ -22,6 +22,15 @@
 			margin-top: 24px;
 		}
 
+		.elComplementText {
+			margin-top: 12px;
+		}
+
+		.elComplementText a {
+			text-decoration: none;
+			color: #007ab7;
+		}
+
 		.mainArea input[type="text"] {
 			width: 100%;
 			box-sizing: border-box;
@@ -130,6 +139,27 @@
     		text-align: center;
 		}
 
+		.blcBaseKeywords {
+			margin-top: 12px;
+		}
+
+		.blcBaseKeywords li {
+			float: left;
+			font-weight: bold;
+			color: #d04255;
+			font-size: 14px;
+			margin-right: 20px;
+		}
+
+		.blcBaseKeywords li:first-child {
+			color: #333333;
+		}
+
+		.blcPostContents {
+			margin-top: 16px;
+		}
+
+		.blcBaseKeywords:after,
 		.blcText:after,
 		.elDeleteButton:after {
 			content: '';
@@ -165,7 +195,7 @@
 		<!-- form -->
 		<div class="postFormBox">
 			<h1>コンテンツタイトル</h1>
-			<p>下記のキーワードを使って、<a href="https://ja.wikipedia.org/wiki/%E4%B8%89%E9%A1%8C%E5%99%BA">三題噺</a>のように文章を作ってください</p>
+			<p class="elComplementText">下記のキーワードを使って、<a href="https://ja.wikipedia.org/wiki/%E4%B8%89%E9%A1%8C%E5%99%BA">三題噺</a>のように文章を作ってください</p>
 
 			<ul class="blcKeywords">
 				<li class="js-key0 elKeywordList"></li>
@@ -176,7 +206,7 @@
 
 			<div class="blcPenName">
 				<h2>20文字まで</h2>
-				<p>※&nbsp;20文字以内で入力してください。</p>
+				<p class="elComplementText">※&nbsp;20文字以内で入力してください。</p>
 				<p class="elLimitNotice">20文字以内で入力してください。</p>
 				<p class="elCharacterNotice">文章から不正な文字(<や?など)を取り除いてください。</p>
 				<p class="elEmptyNotice">必須項目です。入力をお願いします。</p>
@@ -184,7 +214,7 @@
 			</div>
 			<div class="blcTitle">
 				<h2>30文字まで</h2>
-				<p>※&nbsp;30文字以内で入力してください。</p>
+				<p class="elComplementText">※&nbsp;30文字以内で入力してください。</p>
 				<p class="elLimitNotice">30文字以内で入力してください。</p>
 				<p class="elCharacterNotice">文章から不正な文字(<や()など)を取り除いてください。</p>
 				<p class="elEmptyNotice">必須項目です。入力をお願いします。</p>
@@ -192,7 +222,7 @@
 			</div>
 			<div class="blcText">
 				<h2>400文字まで</h2>
-				<p>※&nbsp;400文字以内で入力してください。</p>
+				<p class="elComplementText">※&nbsp;400文字以内で入力してください。</p>
 				<p class="elLimitNotice">400文字以内で入力してください。</p>
 				<p class="elCharacterNotice">文章から不正な文字(<や?など)を取り除いてください。</p>
 				<p class="elEmptyNotice">必須項目です。入力をお願いします。</p>
@@ -207,7 +237,13 @@
 			<!-- 投稿内容　-->
 			<div class="blcPostData">
 				<h2>タイトル（30文字）</h2>
-				<div>内容(400文字想定)</div>
+				<ul class="blcBaseKeywords">
+					<li>キーワード：</li>
+					<li>キーワード1</li>
+					<li>キーワード2</li>
+					<li>キーワード3</li>
+				</ul>
+				<div class="blcPostContents">内容(400文字想定)</div>
 				<input type="button" name="delete" class="elDeleteButton" value="削除する">
 			</div>
 
