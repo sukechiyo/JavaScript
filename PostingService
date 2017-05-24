@@ -116,7 +116,7 @@
     		border-radius: 4px;
     		box-shadow: 0 2px #009F8C;
     		cursor: pointer;
-    		padding: 8px 40px;
+    		padding: 12px 80px;
     		margin-top: 24px;
 		}
 
@@ -209,7 +209,7 @@
 		    line-height: 30px;
 		    position: absolute;
 		    top: 12px;
-		    right: 12px;
+		    right: 16px;
 		    cursor: pointer;
 		}
 
