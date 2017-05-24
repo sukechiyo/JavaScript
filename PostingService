@@ -357,7 +357,6 @@
 	textBox.keydown(function(){
 		var textBoxHeight = textBox.scrollTop() + textBox.innerHeight();
 		textBox.css('height',textBoxHeight);
-		console.log(textBoxHeight);
 		if (textBox.val().length > 400) {
 			textBox.parent().find('.elLimitNotice').show();
 		} else {
@@ -447,15 +446,23 @@
 		modalBg = modalRoot.find('.elBgModal'),
 		modalClose = modalRoot.find('.elCloseButton')
 		modalInner = modalRoot.find('.blcModalInner');
-	
+
+	/* OKだったら、送信 */
 	$('.elOpenButton').click(function(){
-		modalRoot.show();
-		modalInner.css({
-			marginTop: '-' + (modalInner.height() / 2 + 20) + 'px',
-			marginLeft: '-' + (modalInner.width() / 2 + 20) + 'px'
+		$(':text,textarea').each(function(){
+			validate($(this));
 		});
+
+		if (flag==true) {
+			modalRoot.show();
+			modalInner.css({
+				marginTop: '-' + (modalInner.height() / 2 + 20) + 'px',
+				marginLeft: '-' + (modalInner.width() / 2 + 20) + 'px'
+			});
+		}
 	});
 
+	/*　モーダルの非表示 */
 	modalBg.click(function(){
 		modalRoot.hide();
 	});
@@ -464,15 +471,7 @@
 		modalRoot.hide();
 	});
 
-	/* OKだったら、送信 */
-	$('.elPostButton').click(function(){
-		$(':text,textarea').each(function(){
-			validate($(this));
-		});
 
-		console.log(flag);
-
-	});
 </script>
 
 
