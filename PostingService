@@ -325,110 +325,70 @@
 	/* 特殊文字バリデートは常に実行　*/
 	CharacterError();
 
-	/* 個別フォーカス制御 */
-	var p_flag = false,
-		t_flag = false,
-		s_flag = false;
+	/* バリデート機能とりまとめ　*/
+	function validate(name) {
+		var nearlyEmpty = name.parent().find('.elEmptyNotice'),
+			limitNotice = name.parent().find('.elLimitNotice'),
+			codeNotice = name.parent().children('.elCharacterNotice'),
+			limit;
 
-	$('#pen').blur(function(){
-		var nearlyEmpty = $(this).parent().find('.elEmptyNotice'),
-			limitNotice = $(this).parent().find('.elLimitNotice'),
-			codeNotice = $(this).parent().children('.elCharacterNotice');
-		if ($(this).val() == '') {
+		/* 文字数制限取得　*/
+		var code = name.attr('id'),
+			code2 = name.attr('class');
+		
+		if (code == "pen") {
+			limit = 20;
+		} else if (code == "title") {
+			limit = 40;
+		} else if (code2 == "js-story") {
+			limit = 400;
+		}
+
+		/* 個別バリデート　*/
+		if (name.val() == '') {
 			nearlyEmpty.show();
 			limitNotice.hide();
 			codeNotice.hide();
-			$(this).css('background','#F4D2DE');
-			p_flag = false;
-		} else if ($(this).val().length > 20) {
+			name.css('background','#F4D2DE');
+		} else if (name.val().length > limit) {
 			nearlyEmpty.hide();
 			limitNotice.show();
 			codeNotice.hide();
-			$(this).css('background','#F4D2DE');
-			p_flag = false;
-		} else if ($(this).val().match(/[<.*>.*<\/\1>]/)) {
+			name.css('background','#F4D2DE');
+		} else if (name.val().match(/[<.*>.*<\/\1>]/)) {
 			nearlyEmpty.hide();
 			limitNotice.hide();
 			codeNotice.show();
-			$(this).css('background','#F4D2DE');
-			p_flag = false;
+			name.css('background','#F4D2DE');
 		} else {
 			nearlyEmpty.hide();
 			limitNotice.hide();
 			codeNotice.hide();
-			$(this).css('background','#ffffff');
-			p_flag = true;
+			name.css('background','#ffffff');
 		}
+	}
+
+
+	/* 個別フォーカス制御 */
+	$('#pen').blur(function(){
+		validate($(this));
 	});
 
 	$('#title').blur(function(){
-		var nearlyEmpty = $(this).parent().find('.elEmptyNotice'),
-			limitNotice = $(this).parent().find('.elLimitNotice'),
-			codeNotice = $(this).parent().children('.elCharacterNotice');
-		if ($(this).val() == '') {
-			nearlyEmpty.show();
-			limitNotice.hide();
-			codeNotice.hide();
-			$(this).css('background','#F4D2DE');
-			t_flag = false;
-		} else if ($(this).val().length > 30) {
-			nearlyEmpty.hide();
-			limitNotice.show();
-			codeNotice.hide();
-			$(this).css('background','#F4D2DE');
-			t_flag = false;
-		} else if ($(this).val().match(/[<.*>.*<\/\1>]/)) {
-			nearlyEmpty.hide();
-			limitNotice.hide();
-			codeNotice.show();
-			$(this).css('background','#F4D2DE');
-			t_flag = flase;
-		} else {
-			nearlyEmpty.hide();
-			limitNotice.hide();
-			codeNotice.hide();
-			$(this).css('background','#ffffff');
-			t_flag = true;
-		}
+		validate($(this));
 	});
 
 	textBox.blur(function(){
-		var nearlyEmpty = $(this).parent().find('.elEmptyNotice'),
-			limitNotice = $(this).parent().find('.elLimitNotice'),
-			codeNotice = $(this).parent().children('.elCharacterNotice');
-		if ($(this).val() == '') {
-			nearlyEmpty.show();
-			limitNotice.hide();
-			codeNotice.hide();
-			$(this).css('background','#F4D2DE');
-			s_flag = false;
-		} else if ($(this).val().length > 400) {
-			nearlyEmpty.hide();
-			limitNotice.show();
-			codeNotice.hide();
-			$(this).css('background','#F4D2DE');
-			s_flag = false;
-		} else if ($(this).val().match(/[<.*>.*<\/\1>]/)) {
-			nearlyEmpty.hide();
-			limitNotice.hide();
-			codeNotice.show();
-			$(this).css('background','#F4D2DE');
-			s_flag = false;
-		} else {
-			nearlyEmpty.hide();
-			limitNotice.hide();
-			codeNotice.hide();
-			$(this).css('background','#ffffff');
-			s_flag = true;
-		}
+		validate($(this));
 	});
 
 
 	/* OKだったら、送信 */
 	$('.elSendButton').click(function(){
-		if (p_flag == true || t_flag == true || s_flag == true) {
+		$(':text,textarea').each(function(){
+			validate($(this));
+		});
 
-		}
 	});
 
 	/* ページロード時に情報を取得し、blcPostDataに置き換えて表示する　*/
