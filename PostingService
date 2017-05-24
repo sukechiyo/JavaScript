@@ -9,7 +9,7 @@
 	<meta name="description" content="ランダムに選ばれた３つのキーワードを使って、好き勝手に400文字をつづるSS投稿サイト掲示板です。">
 	<meta name="author" content="SS大好きおじさん">
 
-	<title>ローカルテスト</title>
+	<title>SS投稿掲示板(仮)</title>
 	<style>
 		/* reset */
 		html,body {margin: 0; padding: 0; color: #1c1c1c;}
