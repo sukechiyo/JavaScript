@@ -1,9 +1,14 @@
 <!--　400文字(原稿用紙１枚分)の文字を投稿できるサービスの試作品 -->
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="description" content="ランダムに選ばれた３つのキーワードを使って、好き勝手に400文字をつづるSS投稿サイト掲示板です。">
+	<meta name="author" content="SS大好きおじさん">
+
 	<title>ローカルテスト</title>
 	<style>
 		/* reset */
@@ -390,7 +395,7 @@
 			/* 文字数制限取得　*/
 			code = name.attr('id'),
 			code2 = name.attr('class');
-		
+
 		if (code == "pen") {
 			limit = 20;
 		} else if (code == "title") {
