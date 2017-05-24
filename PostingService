@@ -13,6 +13,10 @@
 		input {display: block;}
 		input,textarea {font-size: 16px;}
 
+		body {
+			position: relative;
+		}
+
 		/*　デザイン用スタイル　*/
 		.mainArea {
 			width: 100%;
@@ -23,7 +27,8 @@
 		}
 
 		.elComplementText {
-			margin-top: 12px;
+			margin-top: 8px;
+			line-height: 1.6;
 		}
 
 		.elComplementText a {
@@ -102,7 +107,8 @@
 			margin-right: 0;
 		}
 
-		.elSendButton {
+		.elOpenButton,
+		.elPostButton {
 			float: right;
     		background: #1DAF9E;
     		color: #ffffff;
@@ -133,14 +139,10 @@
     		border-radius: 4px;
     		box-shadow: 0 2px #c7243a;
     		cursor: pointer;
-    		padding: 8px 40px;
+    		padding: 12px 40px;
     		margin: 24px auto;
     		max-width: 420px;
     		text-align: center;
-		}
-
-		.blcBaseKeywords {
-			margin-top: 12px;
 		}
 
 		.blcBaseKeywords li {
@@ -149,6 +151,7 @@
 			color: #d04255;
 			font-size: 14px;
 			margin-right: 20px;
+			margin-top: 12px;
 		}
 
 		.blcBaseKeywords li:first-child {
@@ -173,10 +176,51 @@
 			display: none;
 		}
 
-		.blcDeleteModal {
-			display: none;
+		.blcCheckModal .elBgModal {
+			width: 100%;
+			height: 100%;
+			background: #000000;
+			opacity: 0.5;
+			top: 0;
+			left: 0;
+			position: absolute;
+			cursor: pointer;
 		}
 
+		.blcCheckModal .blcModalInner {
+			background: #ffffff;
+			width: 90%;
+			max-width: 940px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			padding: 20px;
+			box-sizing: border-box;
+			border-radius: 4px;
+		}
+
+		.blcCheckModal .elCloseButton {
+		    height: 30px;
+		    width: 30px;
+		    background: #393939;
+		    color: #ffffff;
+		    border-radius: 50%;
+		    text-align: center;
+		    line-height: 30px;
+		    position: absolute;
+		    top: 12px;
+		    right: 12px;
+		    cursor: pointer;
+		}
+
+		.blcCheckModal .elInnerStory {
+			margin-top: 12px;
+			line-height: 1.6;
+		}
+
+		.blcCheckModal h2 {
+			margin-top: 0;
+		}
 
 		/* レスポンシブ用デザイン　*/
 		@media(max-width: 767px) {
@@ -185,6 +229,16 @@
 				margin: 12px 0 0 0;
 				width: 100%;
 			}
+
+			.blcCheckModal .elCloseButton {
+			    height: 20px;
+			    width: 20px;
+			    line-height: 20px;
+			    top: 8px;
+			    right: 8px;
+				font-size: 12px;
+			}
+
 		}
 
 	</style>
@@ -195,14 +249,16 @@
 		<!-- form -->
 		<div class="postFormBox">
 			<h1>コンテンツタイトル</h1>
-			<p class="elComplementText">下記のキーワードを使って、<a href="https://ja.wikipedia.org/wiki/%E4%B8%89%E9%A1%8C%E5%99%BA">三題噺</a>のように文章を作ってください</p>
+			<p class="elComplementText">「キーワードを決める」ボタンを押すと、ランダムに３つのキーワードが選ばれます。<br>
+			表示されたキーワードを使って、<a href="https://ja.wikipedia.org/wiki/%E4%B8%89%E9%A1%8C%E5%99%BA">三題噺</a>のように文章を作ってください。<br>
+			ボタンを押すと、何度でもキーワードを選びなおすことができます。</p>
 
 			<ul class="blcKeywords">
 				<li class="js-key0 elKeywordList"></li>
 				<li class="js-key1 elKeywordList"></li>
 				<li class="js-key2 elKeywordList"></li>
 			</ul>
-			<p class="elChoiceButton">キーワードボタン</p>
+			<p class="elChoiceButton">キーワードを決める</p>
 
 			<div class="blcPenName">
 				<h2>20文字まで</h2>
@@ -227,24 +283,23 @@
 				<p class="elCharacterNotice">文章から不正な文字(<や?など)を取り除いてください。</p>
 				<p class="elEmptyNotice">必須項目です。入力をお願いします。</p>
 				<textarea placeholder="内容を入力してください（必須）" class="js-story"></textarea>
-				<input type="button" name="delete" class="elSendButton" value="送信する">
+				<input type="button" name="delete" class="elOpenButton" value="確認する">
 			</div>
 		</div>
 
 		<!-- リスト　-->
 		<div class="postListBox">
 
-			<!-- 投稿内容　-->
+			<!-- コンテンツブロック　-->
 			<div class="blcPostData">
-				<h2>タイトル（30文字）</h2>
+				<h2>タイトル（30文字以内）</h2>
 				<ul class="blcBaseKeywords">
 					<li>キーワード：</li>
 					<li>キーワード1</li>
 					<li>キーワード2</li>
 					<li>キーワード3</li>
 				</ul>
-				<div class="blcPostContents">内容(400文字想定)</div>
-				<input type="button" name="delete" class="elDeleteButton" value="削除する">
+				<div class="blcPostContents">内容(400文字以内)</div>
 			</div>
 
 
@@ -253,16 +308,15 @@
 
 		<!-- モーダル(投稿確認前モーダル) -->
 		<div class="blcCheckModal js-Check">
-			<h3>タイトル（30文字）</h3>
-			<p>内容(400文字想定)</p>
+			<div class="elBgModal"></div>
+			<div class="blcModalInner">
+				<h2>タイトル（30文字以内）</h2>
+				<p class="elInnerStory">ストーリー(400文字以内)</p>
+				<input type="button" name="post" class="elPostButton" value="投稿する">
+				<p class="elCloseButton">&#x3A7;</p>
+			</div>
 		</div>
 
-		<!-- モーダル(削除確認前モーダル) -->
-		<div class="blcDeleteModal js-Delete">
-			<h3>本当に削除しますか？</h3>
-			<input type="button" value="やめる">
-			<input type="button" value="削除する">
-		</div>
 	</div>
 
 </body>
@@ -325,15 +379,17 @@
 	/* 特殊文字バリデートは常に実行　*/
 	CharacterError();
 
+	/* チェック用フラグ　*/
+	var flag = false;
+
 	/* バリデート機能とりまとめ　*/
 	function validate(name) {
 		var nearlyEmpty = name.parent().find('.elEmptyNotice'),
 			limitNotice = name.parent().find('.elLimitNotice'),
 			codeNotice = name.parent().children('.elCharacterNotice'),
-			limit;
-
-		/* 文字数制限取得　*/
-		var code = name.attr('id'),
+			limit,
+			/* 文字数制限取得　*/
+			code = name.attr('id'),
 			code2 = name.attr('class');
 		
 		if (code == "pen") {
@@ -350,21 +406,25 @@
 			limitNotice.hide();
 			codeNotice.hide();
 			name.css('background','#F4D2DE');
+			flag = false;
 		} else if (name.val().length > limit) {
 			nearlyEmpty.hide();
 			limitNotice.show();
 			codeNotice.hide();
 			name.css('background','#F4D2DE');
+			flag = false;
 		} else if (name.val().match(/[<.*>.*<\/\1>]/)) {
 			nearlyEmpty.hide();
 			limitNotice.hide();
 			codeNotice.show();
 			name.css('background','#F4D2DE');
+			flag = false;
 		} else {
 			nearlyEmpty.hide();
 			limitNotice.hide();
 			codeNotice.hide();
 			name.css('background','#ffffff');
+			flag = true;
 		}
 	}
 
@@ -382,12 +442,35 @@
 		validate($(this));
 	});
 
+	/* モーダル位置調整 */
+	var modalRoot = $('.blcCheckModal'),
+		modalBg = modalRoot.find('.elBgModal'),
+		modalClose = modalRoot.find('.elCloseButton')
+		modalInner = modalRoot.find('.blcModalInner');
+	
+	$('.elOpenButton').click(function(){
+		modalRoot.show();
+		modalInner.css({
+			marginTop: '-' + (modalInner.height() / 2 + 20) + 'px',
+			marginLeft: '-' + (modalInner.width() / 2 + 20) + 'px'
+		});
+	});
+
+	modalBg.click(function(){
+		modalRoot.hide();
+	});
+
+	modalClose.click(function(){
+		modalRoot.hide();
+	});
 
 	/* OKだったら、送信 */
-	$('.elSendButton').click(function(){
+	$('.elPostButton').click(function(){
 		$(':text,textarea').each(function(){
 			validate($(this));
 		});
+
+		console.log(flag);
 
 	});
 </script>
