@@ -53,6 +53,9 @@ b.addEventListener('blur', function() {
   
 });
 
+※「`<p>${paragraph}</p>`」を「'<p>' + paragraph + '</p>'」などに直せば動くようになります。
+
+
 【JSHintの結果】
 ・'template literal syntax' is only available in ES6 (use 'esversion: 6').
 
