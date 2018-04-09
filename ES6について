@@ -1,4 +1,3 @@
-# ES6を使う際の注意点
 ES6は使いこなせれば、かなり便利な言語だと思いますが、使う際はブラウザ対応しているメソッドかどうかを注意する必要があります。
 例えば、下記の記述はIEだとうまく動きません。
 
@@ -35,7 +34,7 @@ b.addEventListener('click', function() {
 
 試しに、動かなかった方をJSHintに掛けてみると、次のように表示されます。
 
-**【JSHintの結果】**
+【JSHintの結果】
 ・	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
 ・'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
 ・'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
@@ -57,11 +56,10 @@ b.addEventListener('blur', function() {
 ※「`<p>${paragraph}</p>`」を「'<p>' + paragraph + '</p>'」などに直せば動くようになります。
 
 
-**【JSHintの結果】**
+【JSHintの結果】
 ・'template literal syntax' is only available in ES6 (use 'esversion: 6').
 
 
-# まとめ
 JSHintからの報告で「is only available in ES6(use 'esversion:6')」と表示されるものはIEだと使えません。
 主要ブラウザ対応状況は、下記の通りです。
 
