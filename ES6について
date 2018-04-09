@@ -1,0 +1,66 @@
+ES6は使いこなせれば、かなり便利な言語だと思いますが、使う際はブラウザ対応しているメソッドかどうかを注意する必要があります。
+例えば、下記の記述はIEだとうまく動きません。
+
+// IEだと使えない
+let b = document.getElementById('button');
+let result = document.getElementById('result');
+
+b.addEventListener('click', ev => {
+  
+  const p = document.createElement('p');
+  
+  p.innerText = 'クリックされたよ';
+
+  result.appendChild(p);
+  
+});
+
+「arrow function(ev =>)」をいつもの「function()」に直すと使えます。
+
+// IEでも使える
+let b = document.getElementById('button');
+let result = document.getElementById('result');
+
+b.addEventListener('click', function() {
+  
+  const p = document.createElement('p');
+  
+  p.innerText = 'クリックされたよ';
+
+  result.appendChild(p);
+  
+});
+
+
+試しに、動かなかった方をJSHintに掛けてみると、次のように表示されます。
+
+【JSHintの結果】
+・	'let' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+・'arrow function syntax (=>)' is only available in ES6 (use 'esversion: 6').
+・'const' is available in ES6 (use 'esversion: 6') or Mozilla JS extensions (use moz).
+
+
+例えば、下記の記述もIEだとうまく動きません。
+
+// IEだと使えない
+let b = document.getElementById('text');
+let result = document.getElementById('result');
+
+b.addEventListener('blur', function() {
+  
+  let paragraph = b.value;
+  result.innerHTML = `<p>${paragraph}</p>`;
+  
+});
+
+【JSHintの結果】
+・'template literal syntax' is only available in ES6 (use 'esversion: 6').
+
+
+JSHintからの報告で「is only available in ES6(use 'esversion:6')」と表示されるものはIEだと使えません。
+主要ブラウザ対応状況は、下記の通りです。
+
+[ECMAScript6 compatibility table](http://kangax.github.io/compat-table/es6/)
+
+該当していた「arrow function syntax」と「template literal syntax」も上記の表では「No」になっています。
+このように、ES6を使う際はJSHintなどに掛けてみて、ES6でしか使えない物なのかどうかを確かめる必要があります。
